@@ -1,0 +1,213 @@
+
+
+
+H:\ic-loc\ss7\CMCD\Dozap\S30_DUMMY_A50_T0,80_R1_100Hz.MAT
+
+__header__	<class 'bytes'>
+	tamanho:69
+b'MATLAB 5.0 MAT-file, Platform: PCWIN, Created on: 08/09/2022 15:05:02'
+__version__	<class 'str'>
+	tamanho:3
+1.0
+__globals__	<class 'list'>
+	tamanho:0
+[]
+Channel_1_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_1_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['62,31000'], dtype='<U8'), array(['s'], dtype='<U1'), array(['0'], dtype='<U1'), array(['Time__1_-_default_sample_rate'], dtype='<U29'))]]
+Channel_2_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_2_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['0,24475'], dtype='<U7'), array(['mV/V'], dtype='<U4'), array(['0'], dtype='<U1'), array(['LIFT_RAW'], dtype='<U8'))]]
+Channel_3_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_3_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['0,03881'], dtype='<U7'), array(['mV/V'], dtype='<U4'), array(['0'], dtype='<U1'), array(['DRAG_RAW'], dtype='<U8'))]]
+Channel_4_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_4_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['1,26053'], dtype='<U7'), array(['m/s2'], dtype='<U4'), array(['0'], dtype='<U1'), array(['ACC_PMM_RAW'], dtype='<U11'))]]
+Channel_5_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_5_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['1,79624'], dtype='<U7'), array(['V'], dtype='<U1'), array(['0'], dtype='<U1'), array(['ACC_X_RAW'], dtype='<U9'))]]
+Channel_6_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_6_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['1,65164'], dtype='<U7'), array(['V'], dtype='<U1'), array(['0'], dtype='<U1'), array(['ACC_Y_RAW'], dtype='<U9'))]]
+Channel_7_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_7_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['3,40268'], dtype='<U7'), array(['m/s�'], dtype='<U4'), array(['0'], dtype='<U1'), array(['ACC_Z_RAW'], dtype='<U9'))]]
+Channel_8_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_8_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['51,48384'], dtype='<U8'), array(['mm'], dtype='<U2'), array(['0'], dtype='<U1'), array(['LVDT_RAW'], dtype='<U8'))]]
+Channel_9_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_9_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['6,00020'], dtype='<U7'), array(['N'], dtype='<U1'), array(['0'], dtype='<U1'), array(['DRAG'], dtype='<U4'))]]
+File_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['9'], dtype='<U1'), array([' '], dtype='<U1'), array(['100,00'], dtype='<U6'), array(['08/09/2022 15:05:02'], dtype='<U19'), array([' '], dtype='<U1'), array(['6000'], dtype='<U4'))]]
+
+
+H:\ic-loc\ss7\CMCD\Dozap\S30_DUMMY_A50_T0,80_R1_4800Hz.MAT
+
+__header__	<class 'bytes'>
+	tamanho:69
+b'MATLAB 5.0 MAT-file, Platform: PCWIN, Created on: 08/09/2022 15:05:02'
+__version__	<class 'str'>
+	tamanho:3
+1.0
+__globals__	<class 'list'>
+	tamanho:0
+[]
+Channel_1_Data	<class 'numpy.ndarray'>
+	tamanho:288000
+Channel_1_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['62,31396'], dtype='<U8'), array(['s'], dtype='<U1'), array(['0'], dtype='<U1'), array(['Time__1_-_fast_sample_rate'], dtype='<U26'))]]
+Channel_2_Data	<class 'numpy.ndarray'>
+	tamanho:288000
+Channel_2_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['5,02455'], dtype='<U7'), array(['V'], dtype='<U1'), array(['0'], dtype='<U1'), array(['TRIGGER'], dtype='<U7'))]]
+File_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['2'], dtype='<U1'), array([' '], dtype='<U1'), array(['4800,00'], dtype='<U7'), array(['08/09/2022 15:05:03'], dtype='<U19'), array([' '], dtype='<U1'), array(['288000'], dtype='<U6'))]]
+
+
+H:\ic-loc\ss7\CMCD\Dozap\S30_DUMMY_A50_T0,80_R1_Qualisys.MAT
+
+__header__	<class 'bytes'>
+	tamanho:76
+b'MATLAB 5.0 MAT-file, Platform: PCWIN64, Created on: Wed Feb 15 09:11:19 2023'
+__version__	<class 'str'>
+	tamanho:3
+1.0
+__globals__	<class 'list'>
+	tamanho:0
+[]
+time_s	<class 'numpy.ndarray'>
+	tamanho:6000
+x_filled_mm	<class 'numpy.ndarray'>
+	tamanho:6000
+x_raw_mm	<class 'numpy.ndarray'>
+	tamanho:6000
+
+
+H:\ic-loc\ss7\CMCD\Dozap\S30_STR_A50_T0,80_R1_100Hz.MAT
+
+__header__	<class 'bytes'>
+	tamanho:69
+b'MATLAB 5.0 MAT-file, Platform: PCWIN, Created on: 12/09/2022 09:53:30'
+__version__	<class 'str'>
+	tamanho:3
+1.0
+__globals__	<class 'list'>
+	tamanho:0
+[]
+Channel_1_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_1_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['62,99000'], dtype='<U8'), array(['s'], dtype='<U1'), array(['0'], dtype='<U1'), array(['Time__1_-_default_sample_rate'], dtype='<U29'))]]
+Channel_2_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_2_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['0,24591'], dtype='<U7'), array(['mV/V'], dtype='<U4'), array(['0'], dtype='<U1'), array(['LIFT_RAW'], dtype='<U8'))]]
+Channel_3_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_3_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['0,03186'], dtype='<U7'), array(['mV/V'], dtype='<U4'), array(['0'], dtype='<U1'), array(['DRAG_RAW'], dtype='<U8'))]]
+Channel_4_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_4_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['1,41367'], dtype='<U7'), array(['m/s2'], dtype='<U4'), array(['0'], dtype='<U1'), array(['ACC_PMM_RAW'], dtype='<U11'))]]
+Channel_5_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_5_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['1,79699'], dtype='<U7'), array(['V'], dtype='<U1'), array(['0'], dtype='<U1'), array(['ACC_X_RAW'], dtype='<U9'))]]
+Channel_6_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_6_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['1,67685'], dtype='<U7'), array(['V'], dtype='<U1'), array(['0'], dtype='<U1'), array(['ACC_Y_RAW'], dtype='<U9'))]]
+Channel_7_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_7_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['1,02259'], dtype='<U7'), array(['m/s�'], dtype='<U4'), array(['0'], dtype='<U1'), array(['ACC_Z_RAW'], dtype='<U9'))]]
+Channel_8_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_8_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['51,34116'], dtype='<U8'), array(['mm'], dtype='<U2'), array(['0'], dtype='<U1'), array(['LVDT_RAW'], dtype='<U8'))]]
+Channel_9_Data	<class 'numpy.ndarray'>
+	tamanho:6000
+Channel_9_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['3,82375'], dtype='<U7'), array([' '], dtype='<U1'), array(['0'], dtype='<U1'), array(['DRAG'], dtype='<U4'))]]
+File_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['9'], dtype='<U1'), array([' '], dtype='<U1'), array(['100,00'], dtype='<U6'), array(['12/09/2022 09:53:31'], dtype='<U19'), array([' '], dtype='<U1'), array(['6000'], dtype='<U4'))]]
+
+
+H:\ic-loc\ss7\CMCD\Dozap\S30_STR_A50_T0,80_R1_4800Hz.MAT
+
+__header__	<class 'bytes'>
+	tamanho:69
+b'MATLAB 5.0 MAT-file, Platform: PCWIN, Created on: 12/09/2022 09:53:30'
+__version__	<class 'str'>
+	tamanho:3
+1.0
+__globals__	<class 'list'>
+	tamanho:0
+[]
+Channel_1_Data	<class 'numpy.ndarray'>
+	tamanho:288000
+Channel_1_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['62,99188'], dtype='<U8'), array(['s'], dtype='<U1'), array(['0'], dtype='<U1'), array(['Time__1_-_fast_sample_rate'], dtype='<U26'))]]
+Channel_2_Data	<class 'numpy.ndarray'>
+	tamanho:288000
+Channel_2_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['5,02224'], dtype='<U7'), array([' '], dtype='<U1'), array(['0'], dtype='<U1'), array(['TRIGGER'], dtype='<U7'))]]
+File_Header	<class 'numpy.ndarray'>
+	tamanho:1
+[[(array(['2'], dtype='<U1'), array([' '], dtype='<U1'), array(['4800,00'], dtype='<U7'), array(['12/09/2022 09:53:35'], dtype='<U19'), array([' '], dtype='<U1'), array(['288000'], dtype='<U6'))]]
+
+
+H:\ic-loc\ss7\CMCD\Dozap\S30_STR_A50_T0,80_R1_Qualisys.MAT
+
+__header__	<class 'bytes'>
+	tamanho:76
+b'MATLAB 5.0 MAT-file, Platform: PCWIN64, Created on: Wed Feb 15 09:10:45 2023'
+__version__	<class 'str'>
+	tamanho:3
+1.0
+__globals__	<class 'list'>
+	tamanho:0
+[]
+time_s	<class 'numpy.ndarray'>
+	tamanho:6000
+x_filled_mm	<class 'numpy.ndarray'>
+	tamanho:6000
+x_raw_mm	<class 'numpy.ndarray'>
+	tamanho:6000

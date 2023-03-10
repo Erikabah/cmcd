@@ -1,0 +1,11 @@
+Arq2
+entre 0 e 1 com step de 0.02
+Paramêtros:	L=0.45	D=0.04	rho=998
+A=100	T=2
+Entrada de CM e CD COM GJR:
+CM=1	CD=2
+Entrada de CM e CD SEM GJR:
+CM=0.6	CD=0.4
+
+	t_shift	CD_shift	CM_shift	R²_shift	CD	CM	R²
+1	0.2000	2.0038	0.2032	0.5408	2.0038	0.2032	0.9989
