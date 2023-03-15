@@ -6,18 +6,19 @@ Created on Fri Mar 10 10:36:20 2023
 """
 
 import matplotlib.pyplot as plt
-from math import sqrt
 import numpy as np
+import tkinter as tk
+from math import sqrt
 from scipy.io import loadmat
 from scipy import signal, optimize
-from tkinter import filedialog
+
 # cod para funcionar para N arquivos
 
 #1 abrir os arquivos e listar seus caminhos numa lista/tupla
-#caminhos = filedialog.askopenfilenames(title="Escolha um Arquivo")
-caminhos = ("H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_100Hz.MAT",
-            "H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_4800Hz.MAT",
-            'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_Qualisys_2')
+#caminhos = tk.filedialog.askopenfilenames(title="Escolha um Arquivo")
+#root=tk.Tk()
+#root.mainloop()
+
 caminhos =   ('H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R1_100Hz.MAT',
              'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R1_4800Hz.MAT',
              'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R2_100Hz.MAT',
@@ -52,7 +53,7 @@ def compilado(files):
             hbm = dict([('file', caminho),
                         ('t', dic['Channel_1_Data'] ),
                         ('x', dic['Channel_8_Data'] ),
-                        ('f', dic['Channel_8_Data'] )])
+                        ('f', dic['Channel_9_Data'] )])
             if 'DUMMY' in caminho:
                 hbm['tipo'] = 'hbm_dummy'
             else:
@@ -60,14 +61,14 @@ def compilado(files):
             arquivos.append(hbm)
 #se o arquivo for qualisys
 #Variáeis de interesse: time_s e x_filled_mm
-        elif 'time_s' in dic:
+        elif 'x_filled_mm' in dic:
             qua = dict([('file', caminho),
                         ('t', dic['time_s'] ),
                         ('x', dic['x_filled_mm'] )])
             if 'DUMMY' in caminho:
-                hbm['tipo'] = 'qualisys_dummy'
+                qua['tipo'] = 'qualisys_dummy'
             else:
-                hbm['tipo']='qualisys_str'
+                qua['tipo']='qualisys_str'
             arquivos.append(qua)
-
 compilado(caminhos)
+
