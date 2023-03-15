@@ -8,11 +8,12 @@ import matplotlib.pyplot as plt
 from math import sqrt
 import numpy as np
 from scipy.io import loadmat
-import matplotlib.mlab as mlab
 from scipy import signal, optimize
-
+'''
+import matplotlib.mlab as mlab
+from tkinter import filedialog
 from scipy.io import loadmat
-
+'''
 #pasta onde tá os arquivos e os arquivos (fora os primeiros 'R1.mat')
 folder = "H:\\ic-loc\\ss7\\CMCD\\" # Mudar aqui o caminho!!
 files =     ['commodelo\\S30_DUMMY_A100_T0,80_R1_100Hz.MAT',
@@ -38,31 +39,33 @@ caminhos = []
 for file in files:
     caminhos.append(folder+file)
     #caminho de todos arquivos que foram mandados até agora
+#alternativa para pegar os arquivos:
+#caminhos = filedialog.askopenfilenames(title="Escolha um Arquivo") 
     
 #Dozap - qualisys e 100Hz para as comparações
 #usando o loadmat para ter os arquivos .MAT como dic
 
 #series com modelo 100Hz
 dummy_hbm = loadmat(caminhos[12])
-t_dummy_hbm = dummy_hbm['Channel_1_Data'][1900:5000].ravel()
-x_dummy_hbm = dummy_hbm['Channel_8_Data'][1900:5000].ravel()
+t_dummy_hbm = dummy_hbm['Channel_1_Data'].ravel()
+x_dummy_hbm = dummy_hbm['Channel_8_Data'].ravel()
 A_x_dummy_hbm = np.std(x_dummy_hbm)*sqrt(2)
-f_dummy_hbm = dummy_hbm['Channel_9_Data'][1900:5000].ravel()
+f_dummy_hbm = dummy_hbm['Channel_9_Data'].ravel()
 dummy_qua0 = loadmat(caminhos[14])
 #series com modelo qualisys
 dummy_qua = loadmat(caminhos[18])
-t_dummy_qua = dummy_qua['time_s'][1900:5000].ravel()
-x_dummy_qua = dummy_qua['x_filled_mm'][1900:5000].ravel()
+t_dummy_qua = dummy_qua['time_s'].ravel()
+x_dummy_qua = dummy_qua['x_filled_mm'].ravel()
 A_x_dummy_qua = np.std(x_dummy_qua)*sqrt(2)
 #series sem modelo 100Hz 
 str_hbm = loadmat(caminhos[15])
-t_str_hbm = str_hbm['Channel_1_Data'][1900:5000].ravel()
-x_str_hbm = str_hbm['Channel_8_Data'][1900:5000].ravel()
-f_str_hbm = str_hbm['Channel_9_Data'][1900:5000].ravel()
+t_str_hbm = str_hbm['Channel_1_Data'].ravel()
+x_str_hbm = str_hbm['Channel_8_Data'].ravel()
+f_str_hbm = str_hbm['Channel_9_Data'].ravel()
 #series sem modelo qualisys
 str_qua = loadmat(caminhos[17])
-t_str_qua = str_qua['time_s'][1900:5000].ravel()
-x_str_qua = str_qua['x_filled_mm'][1900:5000].ravel()
+t_str_qua = str_qua['time_s'].ravel()
+x_str_qua = str_qua['x_filled_mm'].ravel()
 
 N = 4 #The order of the filter.
 Wn = 0.1 #The critical frequency or frequencies.
@@ -86,11 +89,11 @@ picos_dummy_qua = x_dummy_hbm_filt[i_dummy_qua]
 t_picos_dummy_qua = t_dummy_qua[i_dummy_qua]
 
 #defasagem dummy - diferença entre o tempo dos picos - com média dos valores
-dif_crua = t_picos_dummy_hbm-t_picos_dummy_qua
-mean_dif = np.mean(dif_crua)
+#dif_crua = t_picos_dummy_hbm-t_picos_dummy_qua
+#mean_dif = np.mean(dif_crua)
 #diferença dos picos
-delta_t = t_picos_dummy_hbm[:-2]-t_picos_dummy_qua[2:]
-mean_delta_t = np.mean(delta_t)
+#delta_t = t_picos_dummy_hbm[:-2]-t_picos_dummy_qua[2:]
+#mean_delta_t = np.mean(delta_t)
 
 #defasagem str
 i_str_hbm, _ = signal.find_peaks(x_str_hbm_filt)
@@ -171,8 +174,8 @@ def eq(x , CD, CA):
     return CD*termo1*v*abs(v) + CA*termo2*ac
 
 #pra achar coeficientes de uma série com optimize
-f = f_dummy_hbm[:3098]
-vel = np.array(v_dummy_hbm[:3098])
+f = f_dummy_hbm[:5998]
+vel = np.array(v_dummy_hbm[:5998])
 acel = np.array(a_dummy_hbm)
 popt,pcov = optimize.curve_fit(eq,(vel,acel),f)
 cd_top_fit = popt[0];
