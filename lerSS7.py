@@ -51,8 +51,8 @@ print(KC)
 #b, a = scipy.signal.butter(N = 4, Wn, #ba-numeador/denominador
 #                           btype='low',analog = False,
 #                           output='ba', fs=None)
-N: 'int ordem do filtro (4a ordem?)'
-Wn: 'array_like, critical frequency or frequencies-5*frequência de excitação'
+#N: 'int ordem do filtro (4a ordem?)'
+#Wn: 'array_like, critical frequency or frequencies-5*frequência de excitação'
 
 # grafico A(t)
 def graf():
