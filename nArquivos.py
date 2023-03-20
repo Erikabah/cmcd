@@ -190,6 +190,7 @@ def comparar (hbm, qua):
     fig.savefig('defasagem = {}'.format(mean))    
     plt.show()
 
+'''
 def iniciar():
 
     print('Escolha 2 arquivos da lista, um 100Hz e um arquivo Qualisys para fazer a comparação')
@@ -210,3 +211,4 @@ def iniciar():
         print('Figura salva')
 
 iniciar()
+'''
