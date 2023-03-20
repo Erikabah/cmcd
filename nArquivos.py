@@ -6,7 +6,7 @@ Created on Fri Mar 10 10:36:20 2023
 """
 
 from math import sqrt
-import tkinter as tk
+from tkinter import filedialog
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import signal, optimize
@@ -80,10 +80,11 @@ def coeficientes(force,velocidade,acel): #det os coeficientes cm e cd
         return 'erro', 'erro', 'erro'
    
 #1 abrir os arquivos e listar seus caminhos numa lista/tupla
-#caminhos = tk.filedialog.askopenfilenames(title="Escolha um Arquivo")
+caminhos = filedialog.askopenfilenames(title="Escolha um Arquivo")
+#caminhos = tk.filedialog.askopenfilenames()
 #root=tk.Tk()
 #root.mainloop()
-
+'''
 caminhos =   ('H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R1_100Hz.MAT',
              'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R1_4800Hz.MAT',
              'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R2_100Hz.MAT',
@@ -103,7 +104,7 @@ caminhos =   ('H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R1_100Hz.M
              'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_STR_A50_T0,80_R1_4800Hz.MAT',
              'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_STR_A50_T0,80_R1_Qualisys.MAT',
              'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_Qualisys_2')
-
+'''
 #2 identificar/diferenciar os arquivos
 
 arquivos = [] #lista para fazer um compilado de todos os arqvs
