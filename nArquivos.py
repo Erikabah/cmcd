@@ -74,7 +74,6 @@ def coeficientes(force,velocidade,acel): #det os coeficientes cm e cd
 
 #caminhos = filedialog.askopenfilenames(title="Escolha um Arquivo")
 caminhos = filedialog.askopenfilenames()
-caminhos = list(caminhos)
 #root=tk.Tk()
 #root.mainloop()
 '''
