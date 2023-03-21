@@ -134,7 +134,7 @@ def compilado(files):
                 qua['tipo']='qualisys_str'
             arquivos.append(qua)
 
-compilado(caminhos)
+#compilado(caminhos)
 
 def aplicarFunc (compilado_arquivos):
     
@@ -158,7 +158,7 @@ def aplicarFunc (compilado_arquivos):
             file['cm'] = cm
             file['r_squared'] = r_squared
 
-aplicarFunc(arquivos)
+#aplicarFunc(arquivos)
 
 def delay(picos_t1, picos_t2): #determinar a defasagem entre 2 series
     if len(picos_t1)==len(picos_t2):
@@ -217,17 +217,44 @@ iniciar()
 
 def compilado2(files):
     for caminho in files:
-        dic = loadmat(caminho)
+        dic = loadmat(caminho, squeeze_me = True)
         nome = caminho.rpartition('/')[2]
         if 'Qualisys' in nome:
             file = dict([('name', nome),
-                        ('t', dic['time_s'].ravel()),
-                        ('x', dic['x_filled_mm'].ravel())])
+                        ('t', dic['time_s']),
+                        ('x', dic['x_filled_mm'])])
             arquivos.append(file)
         elif '4800Hz' in nome:
             file = dict([('name', nome),
-                        ('t', dic['Channel_1_Data'].ravel()),
-                        ('x', dic['Channel_2_Data'].ravel())])
+                        ('t', dic['Channel_1_Data']),
+                        ('x', dic['Channel_2_Data'])])
             arquivos.append(file)
         elif '100Hz' in nome:
-            
+            file = dict([('name',nome)])
+            for n in range(17):
+                key = 'Channel_{}_Data'.format(n)
+                if n == 1:
+                    file['t'] = dic[key]
+                elif n == 8:
+                    file['x'] = dic[key]
+                elif n == 9:
+                    file['f'] = dic[key]
+                else:
+                    continue
+            arquivos.append(file)
+        else:
+            continue        
+        
+def agrupar(files):
+    grupos = []
+    for n in range(20):
+        Rn = 'R{}'.format(n)
+        mesmo_Rn = []
+        for file in files:
+            if Rn in file['name']:
+                mesmo_Rn.append(file)
+        grupo = dict([(Rn, mesmo_Rn)])
+    grupos.append(grupo)
+
+compilado2(caminhos)
+agrupar(arquivos)
