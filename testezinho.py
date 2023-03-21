@@ -6,7 +6,7 @@ Created on Fri Mar 10 10:36:20 2023
 """
 
 from math import sqrt
-import tkinter as tk
+from tkinter import filedialog
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import signal, optimize
@@ -80,7 +80,7 @@ def coeficientes(force,velocidade,acel): #det os coeficientes cm e cd
         return 'erro', 'erro', 'erro'
    
 #1 abrir os arquivos e listar seus caminhos numa lista/tupla
-caminhos = tk.filedialog.askopenfilenames(title="Escolha um Arquivo")
+caminhos = filedialog.askopenfilenames(title="Escolha um Arquivo")
 #caminhos = tk.filedialog.askopenfilenames()
 #root=tk.Tk()
 #root.mainloop()
@@ -173,7 +173,7 @@ def comparar (hbm, qua):
     difers, mean = fase(hbm['picos_t'],qua['picos_t'])
     
     fig, ax = plt.subplots()
-    title = '{1} and {2}'.format_map({'1':hbm['name'],'2':qua['name']})
+    title = '{} and {}'.format_map(hbm['name'],qua['name'])
     ax.set_title(title)
     ax.set_xlabel('time_s')
     ax.set_ylabel('Posições')

@@ -22,7 +22,7 @@ A = 50
 T = .8
 w = 2*np.pi/T
 
-#3 funções utilizadas nos arquivos .MAT - 100Hz e qualisys
+#3 funções utilizadas nos arquivos
 def filtrar(serie): #f serie crua pra serie filtrada
     N = 4 #ordem do filtro
     Wn = 0.1 #frequência critica?
@@ -34,15 +34,6 @@ def picos(tempo, position): # f retorna os tempos que acontece os picos e period
     difer = np.ediff1d(tempo[ind]) #tempo[1:] - tempo[:-1]
     Periodo = np.mean(difer) # média das diferenças
     return tempo[ind], Periodo
-
-def fase(picos_t1, picos_t2): #determinar a defasagem entre 2 series
-    if len(picos_t1)==len(picos_t2):
-        diff = picos_t1 - picos_t2 #delta_t
-        return diff, np.mean(diff)
-    else:
-        mensagem = ['Um tem mais picos que o outro\n']
-        print(mensagem)
-        return 'erro'
     
 def derivar(position): #der a serie de posição pra pegar vel e acel
     h = 0.01 #t1-t0
@@ -80,8 +71,10 @@ def coeficientes(force,velocidade,acel): #det os coeficientes cm e cd
         return 'erro', 'erro', 'erro'
    
 #1 abrir os arquivos e listar seus caminhos numa lista/tupla
-caminhos = filedialog.askopenfilenames(title="Escolha um Arquivo")
-#caminhos = tk.filedialog.askopenfilenames()
+
+#caminhos = filedialog.askopenfilenames(title="Escolha um Arquivo")
+caminhos = filedialog.askopenfilenames()
+caminhos = list(caminhos)
 #root=tk.Tk()
 #root.mainloop()
 '''
@@ -116,12 +109,11 @@ def compilado(files):
 #Canais de interesse: 1, 8(mm) e 9(N)
         if 'Channel_9_Data' in dic:
             #criando novo dic pra guardar as infos sobre o arquivo
-            hbm = dict([('name', caminho.rpartition('\\')[-1]),
+            hbm = dict([('name', caminho.rpartition('/')[2]),
                         ('local', caminho),
                         ('t', dic['Channel_1_Data'].ravel() ),
                         ('x', dic['Channel_8_Data'].ravel() ),
                         ('f', dic['Channel_9_Data'].ravel() )])
-           
             if 'DUMMY' in caminho:
                 hbm['tipo'] = 'hbm_dummy'
             else:
@@ -132,7 +124,7 @@ def compilado(files):
 #se o arquivo for qualisys 
 #Variáeis de interesse: time_s e x_filled_mm
         elif 'x_filled_mm' in dic:
-            qua = dict([('name', caminho.rpartition('\\')[-1]),
+            qua = dict([('name', caminho.rpartition('/')[2]),
                         ('local', caminho),
                         ('t', dic['time_s'].ravel() ),
                         ('x', dic['x_filled_mm'].ravel() )])
@@ -168,9 +160,18 @@ def aplicarFunc (compilado_arquivos):
 
 aplicarFunc(arquivos)
 
+def delay(picos_t1, picos_t2): #determinar a defasagem entre 2 series
+    if len(picos_t1)==len(picos_t2):
+        diff = picos_t1 - picos_t2 #delta_t
+        return diff, np.mean(diff)
+    else:
+        mensagem = ['Um tem mais picos que o outro\n']
+        print(mensagem)
+        return 'erro'
+
 def comparar (hbm, qua):
     
-    difers, mean = fase(hbm['picos_t'],qua['picos_t'])
+    difers, mean = delay(hbm['picos_t'],qua['picos_t'])
     
     fig, ax = plt.subplots()
     title = '{1} and {2}'.format_map({'1':hbm['name'],'2':qua['name']})
@@ -189,6 +190,7 @@ def comparar (hbm, qua):
     ax.tick_params()
     fig.savefig('defasagem = {}'.format(mean))    
     plt.show()
+
 
 '''
 def iniciar():
@@ -212,3 +214,20 @@ def iniciar():
 
 iniciar()
 '''
+
+def compilado2(files):
+    for caminho in files:
+        dic = loadmat(caminho)
+        nome = caminho.rpartition('/')[2]
+        if 'Qualisys' in nome:
+            file = dict([('name', nome),
+                        ('t', dic['time_s'].ravel()),
+                        ('x', dic['x_filled_mm'].ravel())])
+            arquivos.append(file)
+        elif '4800Hz' in nome:
+            file = dict([('name', nome),
+                        ('t', dic['Channel_1_Data'].ravel()),
+                        ('x', dic['Channel_2_Data'].ravel())])
+            arquivos.append(file)
+        elif '100Hz' in nome:
+            
