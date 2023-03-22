@@ -22,8 +22,6 @@ A = 50
 T = .8
 w = 2*np.pi/T
 
-arquivos = [] #lista para fazer um compilado de todos os arqvs
-grupos = []
 
 #3 funções utilizadas nos arquivos
 def filtrar(serie): #f serie crua pra serie filtrada
@@ -78,28 +76,9 @@ def coeficientes(force,velocidade,acel): #det os coeficientes cm e cd
 caminhos = filedialog.askopenfilenames()
 #root=tk.Tk()
 #root.mainloop()
-'''
-caminhos =   ('H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R1_100Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R1_4800Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R2_100Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R2_4800Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R3_100Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R3_4800Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\semmodelo\\S30_STR_A100_T0,80_R1_100Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\semmodelo\\S30_STR_A100_T0,80_R1_4800Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\semmodelo\\S30_STR_A100_T0,80_R2_100Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\semmodelo\\S30_STR_A100_T0,80_R2_4800Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\semmodelo\\S30_STR_A100_T0,80_R3_100Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\semmodelo\\S30_STR_A100_T0,80_R3_4800Hz.MAT',
-             "H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_100Hz.MAT",
-             "H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_4800Hz.MAT",
-             'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_Qualisys.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_STR_A50_T0,80_R1_100Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_STR_A50_T0,80_R1_4800Hz.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_STR_A50_T0,80_R1_Qualisys.MAT',
-             'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_Qualisys_2')
-'''
+
 #2 identificar os arquivos
+arquivos = [] #lista para fazer um compilado de todos os arqvs
 def compilado(files):
     #arquivos = filedialog.askopenfilenames(title="Selecione Dummy hbm e qualisys")
     for caminho in files:
@@ -107,8 +86,8 @@ def compilado(files):
         nome = caminho.rpartition('/')[2]
         if 'Qualisys' in nome:
             file = dict([('name', nome),
-                        ('t', dic['time_s']),
-                        ('x', dic['x_filled_mm'])])
+                        ('t', dic['time_s'].ravel()),
+                        ('x', dic['x_filled_mm'].ravel())])
             arquivos.append(file)
 
         elif '4800Hz' in nome:
@@ -123,11 +102,11 @@ def compilado(files):
             for n in range(17):
                 key = 'Channel_{}_Data'.format(n)
                 if n == 1:
-                    file['t'] = dic[key]
+                    file['t'] = dic[key].ravel()
                 elif n == 8:
-                    file['x'] = dic[key]
+                    file['x'] = dic[key].ravel()
                 elif n == 9:
-                    file['f'] = dic[key]
+                    file['f'] = dic[key].ravel()
                 else:
                     continue
             arquivos.append(file)
@@ -140,26 +119,27 @@ def aplicarFunc (compilado_arquivos):
         
          # det x filtrado
         file['x_filt'] = filtrar(file['x'])
-        picos_t, Periodo  = picos( file['t'], file['x_filt'].ravel() )
+        picos_t, Periodo  = picos( file['t'], file['x_filt'] )
         file['picos_t'] = picos_t
         file['Periodo'] = Periodo
         
         dp = np.std(file['x_filt'])
         file['Amplitude'] = sqrt(2)*dp
         
-        x, v, a = derivar(file['x_filt'].ravel())
+        x, v, a = derivar(file['x_filt'])
         #file['x_filt'] = x
         
-        if 'f' in file:
-            cd, cm, r_squared = coeficientes(file['f'][:-2], v, a)
-            file['cd'] = cd
-            file['cm'] = cm
-            file['r_squared'] = r_squared
+        #if 'f' in file:
+        #    cd, cm, r_squared = coeficientes(file['f'][:-2], v, a)
+        #    file['cd'] = cd
+        #    file['cm'] = cm
+        #    file['r_squared'] = r_squared
 
 #aplicarFunc(arquivos)
 
+grupos = dict()
 def agrupar(files):
-    for n in range():
+    for n in range(11):
         Rn = 'R{}'.format(n)
         mesmo_Rn = dict()
         for file in files:
@@ -175,20 +155,19 @@ def agrupar(files):
 
 def comparar2(grupos):
     for Rn in grupos:
-        
         fig1, ax = plt.subplots()
-        S = [Rn['STR_100Hz'],Rn['STR_Qualisys']]
+        S = [grupos[Rn]['STR_100Hz'],grupos[Rn]['STR_Qualisys']]
         ax.set_xlabel('time_s',color='b')
         ax.set_ylabel('STR_x',color='b')
         ax.set_title('{} STR - 100Hz e Qualisys'.format(Rn))
         ax.plot(S[0]['t'], S[0]['x_filt'], 'g',
-                S[1]['t'], S[1]['x_filt'], 'b')
+                Rn['STR_Qualisys']['t'], Rn['STR_Qualisys']['x_filt'], 'b')
         
         nome_figura = 'STR_{}.png'.format(Rn)
         fig1.savefig(nome_figura)
 
         fig2, axs = plt.subplots(2)
-        D = [ Rn['DUMMY_100Hz'], Rn['DUMMY_Qualisys'], Rn['DUMMY_2']]
+        D = [grupos[Rn]['DUMMY_100Hz'],grupos[Rn]['DUMMY_Qualisys'],grupos[Rn]['DUMMY_2']]
         axs[0].set_xlabel('time_s',color='b')
         axs[0].set_ylabel('DUMMY_x',color='b')
         axs[0].set_title('{} DUMMY - 100Hz, Qualisys e Qualisys_2'.format(Rn))
@@ -238,7 +217,7 @@ def comparar (hbm, qua):
 compilado(caminhos)
 aplicarFunc(arquivos)
 agrupar(arquivos)
-comparar2(grupos)
+#comparar2(grupos)
 
 '''
 def iniciar():
