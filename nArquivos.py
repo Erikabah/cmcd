@@ -22,12 +22,15 @@ A = 50
 T = .8
 w = 2*np.pi/T
 
+arquivos = [] #lista para fazer um compilado de todos os arqvs
+grupos = []
+
 #3 funções utilizadas nos arquivos
 def filtrar(serie): #f serie crua pra serie filtrada
     N = 4 #ordem do filtro
     Wn = 0.1 #frequência critica?
     b, a = signal.butter(N,Wn) #numerador e denominador
-    return signal.filtfilt(b, a, serie) 
+    return signal.filtfilt(b, a, serie, padlen = 0) 
 
 def picos(tempo, position): # f retorna os tempos que acontece os picos e periodo
     ind,_ = signal.find_peaks(position) #pega os ind dos picos
@@ -72,7 +75,6 @@ def coeficientes(force,velocidade,acel): #det os coeficientes cm e cd
    
 #1 abrir os arquivos e listar seus caminhos numa lista/tupla
 
-#caminhos = filedialog.askopenfilenames(title="Escolha um Arquivo")
 caminhos = filedialog.askopenfilenames()
 #root=tk.Tk()
 #root.mainloop()
@@ -97,43 +99,40 @@ caminhos =   ('H:\\ic-loc\\ss7\\CMCD\\commodelo\\S30_DUMMY_A100_T0,80_R1_100Hz.M
              'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_STR_A50_T0,80_R1_Qualisys.MAT',
              'H:\\ic-loc\\ss7\\CMCD\\qua\\S30_DUMMY_A50_T0,80_R1_Qualisys_2')
 '''
-#2 identificar/diferenciar os arquivos
-
-arquivos = [] #lista para fazer um compilado de todos os arqvs
+#2 identificar os arquivos
 def compilado(files):
     #arquivos = filedialog.askopenfilenames(title="Selecione Dummy hbm e qualisys")
     for caminho in files:
         dic = loadmat(caminho)#passa pra um dicionário todo conteúdo do arq
-#se o arquivo for hbm - 100Hz
-#Canais de interesse: 1, 8(mm) e 9(N)
-        if 'Channel_9_Data' in dic:
-            #criando novo dic pra guardar as infos sobre o arquivo
-            hbm = dict([('name', caminho.rpartition('/')[2]),
-                        ('local', caminho),
-                        ('t', dic['Channel_1_Data'].ravel() ),
-                        ('x', dic['Channel_8_Data'].ravel() ),
-                        ('f', dic['Channel_9_Data'].ravel() )])
-            if 'DUMMY' in caminho:
-                hbm['tipo'] = 'hbm_dummy'
-            else:
-                hbm['tipo']='hbm_str'
-            
-            arquivos.append(hbm)
+        nome = caminho.rpartition('/')[2]
+        if 'Qualisys' in nome:
+            file = dict([('name', nome),
+                        ('t', dic['time_s']),
+                        ('x', dic['x_filled_mm'])])
+            arquivos.append(file)
 
-#se o arquivo for qualisys 
-#Variáeis de interesse: time_s e x_filled_mm
-        elif 'x_filled_mm' in dic:
-            qua = dict([('name', caminho.rpartition('/')[2]),
-                        ('local', caminho),
-                        ('t', dic['time_s'].ravel() ),
-                        ('x', dic['x_filled_mm'].ravel() )])
-            if 'DUMMY' in caminho:
-                qua['tipo'] = 'qualisys_dummy'
-            else:
-                qua['tipo']='qualisys_str'
-            arquivos.append(qua)
-
-#compilado(caminhos)
+        elif '4800Hz' in nome:
+            continue
+            #file = dict([('name', nome),
+             #           ('t', dic['Channel_1_Data']),
+             #           ('x', dic['Channel_2_Data'])])
+            #arquivos.append(file)
+    
+        elif '100Hz' in nome:
+            file = dict([('name',nome)])
+            for n in range(17):
+                key = 'Channel_{}_Data'.format(n)
+                if n == 1:
+                    file['t'] = dic[key]
+                elif n == 8:
+                    file['x'] = dic[key]
+                elif n == 9:
+                    file['f'] = dic[key]
+                else:
+                    continue
+            arquivos.append(file)
+        else:
+            continue
 
 def aplicarFunc (compilado_arquivos):
     
@@ -141,14 +140,14 @@ def aplicarFunc (compilado_arquivos):
         
          # det x filtrado
         file['x_filt'] = filtrar(file['x'])
-        picos_t, Periodo  = picos( file['t'], file['x_filt'] )
+        picos_t, Periodo  = picos( file['t'], file['x_filt'].ravel() )
         file['picos_t'] = picos_t
         file['Periodo'] = Periodo
         
         dp = np.std(file['x_filt'])
         file['Amplitude'] = sqrt(2)*dp
         
-        x, v, a = derivar(file['x_filt'])
+        x, v, a = derivar(file['x_filt'].ravel())
         #file['x_filt'] = x
         
         if 'f' in file:
@@ -159,6 +158,52 @@ def aplicarFunc (compilado_arquivos):
 
 #aplicarFunc(arquivos)
 
+def agrupar(files):
+    for n in range():
+        Rn = 'R{}'.format(n)
+        mesmo_Rn = dict()
+        for file in files:
+            if Rn in file['name'] and 'DUMMY' in file['name']:
+                key = 'DUMMY_' + file['name'].rpartition('_')[2][:-4]
+                mesmo_Rn[key] = file
+            elif Rn in file['name'] and 'STR' in file['name']:
+                key = 'STR_' + file['name'].rpartition('_')[2][:-4]
+                mesmo_Rn[key] = file
+            else:
+                continue
+        grupos[Rn] = mesmo_Rn
+
+def comparar2(grupos):
+    for Rn in grupos:
+        
+        fig1, ax = plt.subplots()
+        S = [Rn['STR_100Hz'],Rn['STR_Qualisys']]
+        ax.set_xlabel('time_s',color='b')
+        ax.set_ylabel('STR_x',color='b')
+        ax.set_title('{} STR - 100Hz e Qualisys'.format(Rn))
+        ax.plot(S[0]['t'], S[0]['x_filt'], 'g',
+                S[1]['t'], S[1]['x_filt'], 'b')
+        
+        nome_figura = 'STR_{}.png'.format(Rn)
+        fig1.savefig(nome_figura)
+
+        fig2, axs = plt.subplots(2)
+        D = [ Rn['DUMMY_100Hz'], Rn['DUMMY_Qualisys'], Rn['DUMMY_2']]
+        axs[0].set_xlabel('time_s',color='b')
+        axs[0].set_ylabel('DUMMY_x',color='b')
+        axs[0].set_title('{} DUMMY - 100Hz, Qualisys e Qualisys_2'.format(Rn))
+        axs[0].plot(D[0]['t'], D[0]['x_filt'], 'g',
+                    D[1]['t'], D[1]['x_filt'], 'b',
+                    D[2]['t'], D[2]['x_filt'], 'm' )
+        axs[1].set_xlabel('time_s',color='b')
+        axs[0].set_ylabel('DUMMY_x',color='b')
+        axs[0].set_title('{} DUMMY - 100Hz e Qualisys_2'.format(Rn))
+        axs[0].plot(D[0]['t'], D[0]['x_filt'], 'b',
+                    D[2]['t'], D[2]['x_filt'], 'm' )
+        nome_figura = 'DUMMY_{}.png'.format(Rn)
+        fig2.savefig(nome_figura)
+        
+        
 def delay(picos_t1, picos_t2): #determinar a defasagem entre 2 series
     if len(picos_t1)==len(picos_t2):
         diff = picos_t1 - picos_t2 #delta_t
@@ -189,7 +234,11 @@ def comparar (hbm, qua):
     ax.tick_params()
     fig.savefig('defasagem = {}'.format(mean))    
     plt.show()
-
+    
+compilado(caminhos)
+aplicarFunc(arquivos)
+agrupar(arquivos)
+comparar2(grupos)
 
 '''
 def iniciar():
@@ -212,48 +261,5 @@ def iniciar():
         print('Figura salva')
 
 iniciar()
-'''
-
-def compilado2(files):
-    for caminho in files:
-        dic = loadmat(caminho, squeeze_me = True)
-        nome = caminho.rpartition('/')[2]
-        if 'Qualisys' in nome:
-            file = dict([('name', nome),
-                        ('t', dic['time_s']),
-                        ('x', dic['x_filled_mm'])])
-            arquivos.append(file)
-        elif '4800Hz' in nome:
-            file = dict([('name', nome),
-                        ('t', dic['Channel_1_Data']),
-                        ('x', dic['Channel_2_Data'])])
-            arquivos.append(file)
-        elif '100Hz' in nome:
-            file = dict([('name',nome)])
-            for n in range(17):
-                key = 'Channel_{}_Data'.format(n)
-                if n == 1:
-                    file['t'] = dic[key]
-                elif n == 8:
-                    file['x'] = dic[key]
-                elif n == 9:
-                    file['f'] = dic[key]
-                else:
-                    continue
-            arquivos.append(file)
-        else:
-            continue        
+'''     
         
-def agrupar(files):
-    grupos = []
-    for n in range(20):
-        Rn = 'R{}'.format(n)
-        mesmo_Rn = []
-        for file in files:
-            if Rn in file['name']:
-                mesmo_Rn.append(file)
-        grupo = dict([(Rn, mesmo_Rn)])
-    grupos.append(grupo)
-
-compilado2(caminhos)
-agrupar(arquivos)
