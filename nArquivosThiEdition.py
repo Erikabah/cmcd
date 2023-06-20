@@ -236,6 +236,39 @@ def compilado2(files):
         else:
             continue                
         
+# grupos = []
+# def agrupar(files):
+#     grupos = [[] for i in range(20)]
+#     for file in files:
+#         for n in range(20):
+#             Rn = '_R{}'.format(n)
+#             if Rn in file['name']:
+#                 print(n)
+#                 grupos[n].append(file)
+        
+        
+grupos = dict()
+def agrupar(files):
+    for n in range(11):
+        mesmo_Rn = {}
+        Rn = '_R{}_'.format(n+1)
+        for file in files:
+            if Rn in file['name']:
+                if 'STR' in file['name'] and '100Hz' in file['name']:
+                    mesmo_Rn['STR_100Hz'] = file
+                elif 'DUMMY'in file['name'] and '100Hz' in file['name']:
+                    print("entrou")
+                    mesmo_Rn['Dummy_100Hz'] = file
+                elif 'STR' in file['name'] and 'Qualisys' in file['name']:
+                    mesmo_Rn['STR_Qualisys'] = file
+                elif 'DUMMY' in file['name'] and 'Qualisys.' in file['name']:
+                    mesmo_Rn['Dummy_Qualisys'] = file
+                elif 'DUMMY' in file['name'] and 'Qualisys_2' in file['name']:
+                    mesmo_Rn['Dummy_Qualisys_2'] = file
+            else:
+                continue
+        grupos[Rn]=mesmo_Rn
+
         
 #1 abrir os arquivos e listar seus caminhos numa lista/tupla
 
@@ -244,9 +277,11 @@ caminhos = filedialog.askopenfilenames()
 #root=tk.Tk()
 #root.mainloop()
 
-# compilado2(caminhos)
+compilado2(caminhos)
 
-# aplicarFunc(arquivos)
+aplicarFunc(arquivos)
+
+agrupar(arquivos)
 
 # iniciar()
 
